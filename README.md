@@ -1,4 +1,4 @@
-#F ilmVault
+#FilmVault
 
 FilmVault is a program in which we will create a movie database, allowing anyone to register and vote for their favorite titles. However, the right to add new content will be reserved for editors and administrators.
 
