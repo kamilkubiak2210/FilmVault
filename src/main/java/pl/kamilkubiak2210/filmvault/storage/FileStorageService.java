@@ -12,7 +12,6 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileStorageService {
@@ -48,11 +47,14 @@ public class FileStorageService {
 
     private String saveFile(MultipartFile file, String storageLocation) {
         Path filePath = createFilePath(file, storageLocation);
+        if (Files.exists(filePath)) {
+            return filePath.getFileName().toString();
+        }
         try {
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.getInputStream(), filePath);
             return filePath.getFileName().toString();
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -60,14 +62,7 @@ public class FileStorageService {
         String originalFileName = file.getOriginalFilename();
         String fileBaseName = FilenameUtils.getBaseName(originalFileName);
         String fileExtension = FilenameUtils.getExtension(originalFileName);
-        String completeFilename;
-        Path filePath;
-        int fileIndex = 0;
-        do {
-            completeFilename = fileBaseName + fileIndex + "." + fileExtension;
-            filePath = Paths.get(storageLocation, completeFilename);
-            fileIndex++;
-        } while (Files.exists(filePath));
-        return filePath;
+        String completeFilename = fileBaseName + "." + fileExtension;
+        return Paths.get(storageLocation, completeFilename);
     }
 }

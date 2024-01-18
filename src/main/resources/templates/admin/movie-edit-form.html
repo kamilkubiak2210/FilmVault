@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Edytuj film</title>
+</head>
+<body>
+<main class="main-content" layout:fragment="content">
+    <h2 class="list-heading">Edytuj film</h2>
+    <div id="edit-form">
+        <form action="#" th:action="@{/admin/edytuj-film/}" method="post" enctype="multipart/form-data" class="mc-form">
+            <input type="hidden" th:value="${movieId}" name="movieId">
+            <label for="title">Tytuł</label>
+            <input type="text" id="title" placeholder="Przykładowy tytuł" th:field="${movie.title}">
+            <label for="originalTitle">Tytuł oryginalny</label>
+            <input type="text" id="originalTitle" placeholder="Example title" th:field="${movie.originalTitle}">
+            <label for="releaseYear">Rok premiery</label>
+            <input type="number" id="releaseYear" placeholder="2019" th:field="${movie.releaseYear}">
+            <label for="genre">Gatunek</label>
+            <select id="genre" th:field="${movie.genre}" required>
+                <option value="" hidden>Wybierz gatunek</option>
+                <option th:each="genre: ${genres}" th:value="${genre.name}" th:text="${genre.name}"></option>
+            </select>
+            <label for="promoted">Promowanie na stronie głównej?</label>
+            <input id="promoted" type="checkbox" th:field="${movie.promoted}">
+            <label>Plakat </label>
+            <div id="poster-area">
+                <img id="poster-img" alt="poster"
+                     th:src="${movie.poster ne null} ? @{|/img/${movie.poster}|} : @{/img/poster-placeholder.png}">
+            </div>
+            <input type="file" id="poster" th:field="${movie.poster}" accept=".jpg, .jpeg, .png"
+                   style="display: none">
+            <button type="button" onclick="showPosterSelector()" style="max-width: max-content">Zmień plakat
+            </button>
+            <label for="trailerId">Identyfikator trailera Youtube</label>
+            <input type="text" id="trailerId" th:field="${movie.youtubeTrailerId}">
+            <label for="shortDescription">Krótki opis - max 200 znaków</label>
+            <textarea id="shortDescription" rows="5" th:field="${movie.shortDescription}"></textarea>
+            <label for="description">Pełny opis</label>
+            <textarea id="description" rows="10" th:field="${movie.description}"></textarea>
+            <button type="submit">Edytuj</button>
+        </form>
+        <form th:action="@{/admin/edytuj-film/usun}" th:method="POST" class="mc-form">
+            <input type="hidden" th:value="${movieId}" name="movieId">
+            <button id="delete-button" type="submit">Usuń</button>
+        </form>
+    </div>
+    <script>
+        let posterInput = document.querySelector("#poster");
+
+        function showPosterSelector() {
+            if (posterInput.style.display === "block") {
+                posterInput.style.display = "none";
+            } else {
+                posterInput.style.display = "block";
+            }
+        }
+
+        posterInput.addEventListener("click", showPosterSelector)
+    </script>
+</main>
+</body>
+</html>

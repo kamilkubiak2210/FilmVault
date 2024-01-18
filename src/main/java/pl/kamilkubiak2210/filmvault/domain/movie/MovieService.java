@@ -42,8 +42,7 @@ public class MovieService {
                 .toList();
     }
 
-    public void addMovie(MovieSaveDto movieToSave) {
-        Movie movie = new Movie();
+    public void addMovie(MovieSaveDto movieToSave, Movie movie) {
         movie.setTitle(movieToSave.getTitle());
         movie.setOriginalTitle(movieToSave.getOriginalTitle());
         movie.setPromoted(movieToSave.isPromoted());
@@ -60,10 +59,20 @@ public class MovieService {
         movieRepository.save(movie);
     }
 
+    public void editMovie(MovieSaveDto movieDto, Long movieId) {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        movieOptional.ifPresent(movie -> addMovie(movieDto, movie));
+    }
+
     public List<MovieDto> findTopMovies(int size) {
         Pageable page = Pageable.ofSize(size);
         return movieRepository.findTopByRating(page).stream()
                 .map(MovieDtoMapper::map)
                 .toList();
+    }
+
+    public void deleteMovie(Long movieId) {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        movieOptional.ifPresent(movieRepository::delete);
     }
 }

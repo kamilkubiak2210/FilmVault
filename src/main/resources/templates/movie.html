@@ -29,6 +29,8 @@
                     <p class="movie-summary-item" th:text="${movie.shortDescription}">
                         Podróż odważnego hobbita i jego towarzyszy w poszukiwaniu pierścienia.
                     </p>
+                    <p id="movie-edit"><a sec:authorize="hasRole('ADMIN')"
+                                          th:href="@{|/admin/edytuj-film/${movie.id}|}">Edytuj film</a></p>
                 </div>
             </div>
             <div class="movie-rating-container movie-section">

@@ -310,6 +310,34 @@ textarea {
     margin-top: 32px;
 }
 
+#movie-edit {
+    margin-top: 15%;
+    text-align: center;
+}
+
+#poster-img {
+    max-width: 400px;
+    max-height: 470px;
+}
+
+#poster-area {
+    text-align: center;
+}
+
+#edit-form {
+    border: black solid 1px;
+    padding: 7px;
+}
+
+#delete-button {
+    margin: 50px 0 0 0;
+    color: red;
+}
+
+#promoted {
+    width: 50px;
+}
+
 /*Responsive*/
 @media only screen and (min-width: 992px) {
     .menu-toggle {
