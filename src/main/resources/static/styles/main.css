@@ -334,6 +334,13 @@ textarea {
     color: red;
 }
 
+#genre-edit {
+    display: inline;
+    font-size: 13px;
+    color: white;
+    margin: 0 0 0 15px;
+}
+
 #promoted {
     width: 50px;
 }

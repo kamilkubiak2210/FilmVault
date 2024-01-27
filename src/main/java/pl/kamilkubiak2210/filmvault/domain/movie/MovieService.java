@@ -2,6 +2,7 @@ package pl.kamilkubiak2210.filmvault.domain.movie;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkubiak2210.filmvault.domain.genre.Genre;
 import pl.kamilkubiak2210.filmvault.domain.genre.GenreRepository;
 import pl.kamilkubiak2210.filmvault.domain.movie.dto.MovieDto;
@@ -42,6 +43,7 @@ public class MovieService {
                 .toList();
     }
 
+    @Transactional
     public void addMovie(MovieSaveDto movieToSave, Movie movie) {
         movie.setTitle(movieToSave.getTitle());
         movie.setOriginalTitle(movieToSave.getOriginalTitle());
@@ -59,6 +61,7 @@ public class MovieService {
         movieRepository.save(movie);
     }
 
+    @Transactional
     public void editMovie(MovieSaveDto movieDto, Long movieId) {
         Optional<Movie> movieOptional = movieRepository.findById(movieId);
         movieOptional.ifPresent(movie -> addMovie(movieDto, movie));
@@ -71,6 +74,7 @@ public class MovieService {
                 .toList();
     }
 
+    @Transactional
     public void deleteMovie(Long movieId) {
         Optional<Movie> movieOptional = movieRepository.findById(movieId);
         movieOptional.ifPresent(movieRepository::delete);
